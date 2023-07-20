@@ -1,0 +1,36 @@
+window.onload = function () {
+    let elements = document.getElementsByClassName('tool__button')
+    let input = document.getElementById('input');
+
+    for (let i = 0; i < elements.length; i += 1) {
+        if (elements[i].innerHTML === '=') {
+            elements[i].addEventListener("click", calculate());
+        } else {
+            elements[i].addEventListener("click", addToCurrentValue(i));
+        }
+    }
+
+    function addToCurrentValue(i) {
+        return function () {
+            if (elements[i].innerHTML === "÷") {
+                input.innerHTML += "/";
+            } else if (elements[i].innerHTML === "x") {
+                input.innerHTML += "*";
+            } else if (elements[i].innerHTML === 'C') {
+                input.innerHTML = ''
+            } else if (elements[i].innerHTML === 'Del') {
+                input.innerHTML = input.innerHTML.slice(0, -1)
+            } else {
+                input.innerHTML += elements[i].innerHTML;
+            }
+        };
+    }
+
+    function calculate() {
+        return function () {
+            input.innerHTML = eval(input.innerHTML).toLocaleString(undefined,
+                { 'minimumFractionDigits': 0, 'maximumFractionDigits': 4 });
+        };
+    }
+
+};
